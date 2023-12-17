@@ -22,7 +22,7 @@ updates:
     schedule:
       interval: "weekly"
 
-      # Use `allow` to specify which dependencies to maintain
+      # Use allow to specify which dependencies to maintain
 
 version: 2
 updates:

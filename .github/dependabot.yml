@@ -1,444 +1,149 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
 version: 2
 updates:
-  - package-ecosystem: "github-actions" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "bundler"
+    directories:
+      - "/updater"
+      - "/"
     schedule:
       interval: "weekly"
-
-  # Maintain dependencies for npm
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-
-  # Maintain dependencies for Composer
-  - package-ecosystem: "composer"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-
-      # Use allow to specify which dependencies to maintain
-
-version: 2
-updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    allow:
-      # Allow updates for Lodash
-      - dependency-name: "lodash"
-      # Allow updates for React and any packages starting "react"
-      - dependency-name: "react*"
-
-  - package-ecosystem: "composer"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    allow:
-      # Allow both direct and indirect updates for all packages
-      - dependency-type: "all"
-
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    allow:
-      # Allow only direct updates for
-      # Django and any packages starting "django"
-      - dependency-name: "django*"
-        dependency-type: "direct"
-      # Allow only production updates for Sphinx
-      - dependency-name: "sphinx"
+      day: "sunday"
+      time: "16:00"
+    groups:
+      sorbet:
+        patterns:
+          - "*-sorbet"
+          - "sorbet-*"
+          - "sorbet"
+          - "tapioca"
+      aws-sdk:
+        patterns:
+          - "aws-sdk-*"
+      prod-dependencies:
         dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
+      dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
 
-        # Customize commit messages
-
-version: 2
-updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      # Prefix all commit messages with "npm: "
-      prefix: "npm"
-
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      # Prefix all commit messages with "[docker] " (no colon, but a trailing whitespace)
-      prefix: "[docker] "
-
+  # Watch the per-ecosystem native helpers
   - package-ecosystem: "composer"
-    directory: "/"
+    directories:
+      - "/composer/helpers/v1"
+      - "/composer/helpers/v2"
     schedule:
       interval: "weekly"
-    # Prefix all commit messages with "Composer" plus its scope, that is, a
-    # list of updated dependencies
-    commit-message:
-      prefix: "Composer"
-      include: "scope"
-
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    # Include a list of updated dependencies
-    # with a prefix determined by the dependency group
-    commit-message:
-      prefix: "pip prod"
-      prefix-development: "pip dev"
-      include: "scope"
-
-      # `dependabot.yml` file using the `dependency-type` option to group updates
-# in conjunction with `patterns` and `exclude-patterns`.
-
-groups:
-  production-dependencies:
-    dependency-type: "production"
-  development-dependencies:
-    dependency-type: "development"
-    exclude-patterns:
-    - "rubocop*"
-  rubocop:
-    patterns:
-    - "rubocop*"
-    # Allow external code execution when updating dependencies from private registries
-
-version: 2
-registries:
-  ruby-github:
-    type: rubygems-server
-    url: https://rubygems.pkg.github.com/octocat/github_api
-    token: ${{secrets.MY_GITHUB_PERSONAL_TOKEN}}
-updates:
-  - package-ecosystem: "bundler"
-    directory: "/rubygems-server"
-    insecure-external-code-execution: allow
-    registries: "*"
-    schedule:
-      interval: "monthly"
-      # Using `registries` in conjunction with `insecure-external-code-execution:allow`
-# in the same `updates` setting
-
-version: 2
-registries:
-  ruby-github:
-    type: rubygems-server
-    url: https://rubygems.pkg.github.com/octocat/github_api
-    token: ${{secrets.MY_GITHUB_PERSONAL_TOKEN}}
-  dockerhub:
-    type: docker-registry
-    url: registry.hub.docker.com
-    username: octocat
-    password: ${{secrets.DOCKERHUB_PASSWORD}}
-updates:
-  - package-ecosystem: "bundler"
-    directory: "/rubygems-server"
-    insecure-external-code-execution: allow
-    registries:
-      - ruby-github # only access to registries associated with this ecosystem/directory
-    schedule:
-      interval: "monthly"
-      # Specify labels for pull requests
-
-version: 2
-updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    # Specify labels for npm pull requests
-    labels:
-      - "npm"
-      - "dependencies"
-      # Specify a milestone for pull requests
-
-version: 2
-updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    # Associate pull requests with milestone "4"
-    milestone: 4
-    version: 2
-updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    # Disable version updates for npm dependencies
-    open-pull-requests-limit: 0
-
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    # Allow up to 10 open pull requests for pip dependencies
-    open-pull-requests-limit: 10
-    # Specify a different separator for branch names
-
-version: 2
-updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    pull-request-branch-name:
-      # Separate sections of the branch name with a hyphen
-      # for example, `dependabot-npm_and_yarn-next_js-acorn-6.4.1`
-      separator: "-"
-      # Allow Dependabot to use one of the two defined private registries
-# when updating dependency versions for this ecosystem
-
-version: 2
-registries:
-  maven-github:
-    type: maven-repository
-    url: https://maven.pkg.github.com/octocat
-    username: octocat
-    password: ${{secrets.MY_ARTIFACTORY_PASSWORD}}
-  npm-npmjs:
-    type: npm-registry
-    url: https://registry.npmjs.org
-    username: octocat
-    password: ${{secrets.MY_NPM_PASSWORD}}
-updates:
-  - package-ecosystem: "gitsubmodule"
-    directory: "/"
-    registries:
-      - maven-github
-    schedule:
-      interval: "monthly"
-# Specify reviewers for pull requests
-
-version: 2
-updates:
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    # Add reviewers
-    reviewers:
-      - "octocat"
-      - "my-username"
-      - "my-org/python-team"
-      version: 2
-updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      # Check for npm updates on Sundays
       day: "sunday"
-      version: 2
-updates:
-  - package-ecosystem: "npm"
+      time: "16:00"
+    groups:
+      prod-dependencies:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
+      dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+  - package-ecosystem: "devcontainers"
     directory: "/"
     schedule:
       interval: "weekly"
-      # Check for npm updates at 9am UTC
-      time: "08:00"
-
-      # Specify the timezone for checks
-
-version: 2
-updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      time: "0:00"
-      # Use Japan Standard Time (UTC +09:00)
-      timezone: "Asia/Tokyo"
-
-    # Specify a non-default branch for pull requests for pip
-
-version: 2
-updates:
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    # Raise pull requests for version updates
-    # to pip against the `develop` branch
-    target-branch: "develop"
-    # Labels on pull requests for version updates only
-    labels:
-      - "pip dependencies"
-
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      # Check for npm updates on Sundays
       day: "sunday"
-    # Labels on pull requests for security and version updates
-    labels:
-      - "npm dependencies"
-      version: 2
-updates:
-  - package-ecosystem: "bundler"
-    # Raise pull requests to update vendored dependencies that are checked in to the repository
-    vendor: true
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      # Example configuration for customizing the manifest version strategy
-
-version: 2
-updates:
-  - package-ecosystem: "composer"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    # Increase the version requirements for Composer only when required
-    versioning-strategy: increase-if-necessary
-
-    # Minimal settings to update dependencies in one private registry
-
-version: 2
-registries:
-  dockerhub: # Define access for a private registry
-    type: docker-registry
-    url: registry.hub.docker.com
-    username: octocat
-    password: ${{secrets.DOCKERHUB_PASSWORD}}
-updates:
+      time: "16:00"
   - package-ecosystem: "docker"
-    directory: "/docker-registry/dockerhub"
-    registries:
-      - dockerhub # Allow version updates for dependencies in this registry
+    directories:
+      - "/"
+      - "/go_modules"
+      - "/cargo"
     schedule:
-      interval: "monthly"
-
-      egistries:
-  composer:
-    type: composer-repository
-    url: https://repo.packagist.com/example-company/
-    username: octocat
-    password: ${{secrets.MY_PACKAGIST_PASSWORD}}
-
-    registries:
-  dockerhub:
-    type: docker-registry
-    url: https://registry.hub.docker.com
-    username: octocat
-    password: ${{secrets.MY_DOCKERHUB_PASSWORD}}
-    replaces-base: true
-
-    registries:
-  ecr-docker:
-    type: docker-registry
-    url: https://1234567890.dkr.ecr.us-east-1.amazonaws.com
-    username: ${{secrets.ECR_AWS_ACCESS_KEY_ID}}
-    password: ${{secrets.ECR_AWS_SECRET_ACCESS_KEY}}
-    replaces-base: true
-
-    registries:
-  github-octocat:
-    type: git
-    url: https://github.com
-    username: x-access-token
-    password: ${{secrets.MY_GITHUB_PERSONAL_TOKEN}}
-    registries:
- 
-  github-hex-org:
-    type: hex-organization
-    organization: github
-    key: ${{secrets.MY_HEX_ORGANIZATION_KEY}}
-    registries:
-   github-hex-repository:
-     type: hex-repository
-     repo: private-repo
-     url: https://private-repo.example.com
-     auth-key: ${{secrets.MY_AUTH_KEY}}
-     public-key-fingerprint: ${{secrets.MY_PUBLIC_KEY_FINGERPRINT}}
-
-     registries:
-  maven-artifactory:
-    type: maven-repository
-    url: https://acme.jfrog.io/artifactory/my-maven-registry
-    username: octocat
-    password: ${{secrets.MY_ARTIFACTORY_PASSWORD}}
-
-    registries:
-  npm-npmjs:
-    type: npm-registry
-    url: https://registry.npmjs.org
-    username: octocat
-    password: ${{secrets.MY_NPM_PASSWORD}}  # Must be an unencoded password
-    replaces-base: true
-    registries:
-  npm-github:
-    type: npm-registry
-    url: https://npm.pkg.github.com
-    token: ${{secrets.MY_GITHUB_PERSONAL_TOKEN}}
-    replaces-base: true
-    registries:
-  nuget-example:
-    type: nuget-feed
-    url: https://nuget.example.com/v3/index.json
-    username: octocat@example.com
-    password: ${{secrets.MY_NUGET_PASSWORD}}
-    registries:
-  nuget-azure-devops:
-    type: nuget-feed
-    url: https://pkgs.dev.azure.com/.../_packaging/My_Feed/nuget/v3/index.json
-    username: octocat@example.com
-    password: ${{secrets.MY_AZURE_DEVOPS_TOKEN}}
-
-    registries:
-  python-example:
-    type: python-index
-    url: https://example.com/_packaging/my-feed/pypi/example
-    username: octocat
-    password: ${{secrets.MY_BASIC_AUTH_PASSWORD}}
-    replaces-base: true
-    registries:
-  python-azure:
-    type: python-index
-    url: https://pkgs.dev.azure.com/octocat/_packaging/my-feed/pypi/example
-    username: octocat@example.com
-    password: ${{secrets.MY_AZURE_DEVOPS_TOKEN}}
-    replaces-base: true
-    registries:
-  ruby-example:
-    type: rubygems-server
-    url: https://rubygems.example.com
-    username: octocat@example.com
-    password: ${{secrets.MY_RUBYGEMS_PASSWORD}}
-    replaces-base: true
-registries:
-  ruby-github:
-    type: rubygems-server
-    url: https://rubygems.pkg.github.com/octocat/github_api
-    token: ${{secrets.MY_GITHUB_PERSONAL_TOKEN}}
-    replaces-base: true
-
-    registries:
-  terraform-example:
-    type: terraform-registry
-    url: https://terraform.example.com
-    token: ${{secrets.MY_TERRAFORM_API_TOKEN}}
-    # Configure beta ecosystem
-
-version: 2
-enable-beta-ecosystems: true
-updates:
-  - package-ecosystem: "beta-ecosystem"
+      interval: "weekly"
+      day: "sunday"
+      time: "16:00"
+  - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "sunday"
+      time: "16:00"
+    groups:
+      all-actions:
+        patterns: [ "*" ]
+  - package-ecosystem: "gomod"
+    directory: "/go_modules/helpers"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "16:00"
+  - package-ecosystem: "mix"
+    directory: "/hex/helpers"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "16:00"
+  - package-ecosystem: "npm"
+    directory: "/npm_and_yarn/helpers"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "16:00"
+    groups:
+      npm-dependencies:
+        patterns:
+          - "@npmcli/arborist"
+          - "nock"
+          - "npm"
+          - "semver"
+        exclude-patterns:
+          - "detect-indent"  # temp excluded due to https://github.com/dependabot/dependabot-core/pull/5683#issuecomment-1243468605
+      yarn-dependencies:
+        patterns:
+          - "@dependabot/yarn-lib"
+      pnpm-dependencies:
+        patterns:
+          - "@pnpm/lockfile-file"
+          - "@pnpm/dependency-path"
+      dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      - dependency-name: "npm"
+        update-types: [ "version-update:semver-major" ]
+  - package-ecosystem: "pip"
+    directory: "/python/helpers"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "16:00"
+    groups:
+      common:
+        patterns:
+          - pip
+          - cython
+          - flake8
+      poetry:
+        patterns:
+          - poetry
+          - hashin
+      pip-tools:
+        patterns:
+          - pip-tools
+      pipenv:
+        patterns:
+          - pipfile
+          - pipenv
+  - package-ecosystem: "pub"
+    directory: "/pub/helpers"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "16:00"
       
      
       

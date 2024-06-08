@@ -34,3 +34,6 @@ jobs:
         run: bundle install
       - name: Run tests
         run: bundle exec rake
+
+- name: Checkout
+  uses: actions/checkout@2.0.0

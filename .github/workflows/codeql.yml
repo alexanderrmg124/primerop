@@ -92,3 +92,16 @@ jobs:
     - name: Checkout
   uses: actions/checkout@2.0.0
 
+              - name: Autify for Web Run Test Plan
+  # You may pin to the exact commit or the version.
+  # uses: autifyhq/web-run-test-plan-action@d7c3dc4ecacc9e71f48914d12c2b1ab2effbd1c0
+  uses: autifyhq/web-run-test-plan-action@v1.0.0
+  with:
+    # Personal Access Token
+    autify_for_web_api_token: 
+    # Test Plan ID that you want to run
+    test_plan_id: 
+    # Test Plan API base URL
+    test_plan_api_base_url: # optional, default is https://app.autify.com/api/v1/schedules/
+          
+

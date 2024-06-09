@@ -93,4 +93,8 @@ jobs:
 # Running steps or jobs conditionally
 steps:
 - run: npm publish
-  if: github.event_name == 'push'        
+  if: github.event_name == 'push'  
+
+                - name: OpenCommit — improve commits with AI 🧙
+                uses: di-sukharev/opencommit@github-action-v1.0.2
+            

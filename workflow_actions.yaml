@@ -56,5 +56,9 @@ jobs:
  -----------------------
                - name: KiBot GitHub action
                 uses: INTI-CMNB/KiBot@v1.7.0
+  ---------------
+                - nombre: Paquete CodeQL
+                usos: seguridad avanzada/codeql-bundle-action@v2.2.0
+            
             
             

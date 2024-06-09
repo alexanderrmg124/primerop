@@ -53,4 +53,8 @@ jobs:
 
               - name: OpenCommit — improve commits with AI 🧙
                 uses: di-sukharev/opencommit@github-action-v1.0.2
+ -----------------------
+               - name: KiBot GitHub action
+                uses: INTI-CMNB/KiBot@v1.7.0
+            
             

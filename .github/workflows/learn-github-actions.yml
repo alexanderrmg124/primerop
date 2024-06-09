@@ -49,4 +49,7 @@ jobs:
 
 # Finalmente, ejecutará el comando `bats` con un parámetro que genera la versión del software.
       - ejecutar: murciélagos -v
-
+              - name: Check semantic version increased
+                uses: aleoyakas/check-semver-increased-action@v1.0.0
+                          
+            

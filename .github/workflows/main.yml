@@ -1,4 +1,4 @@
-            - nombre: Configurar el entorno Node.js
+ nombre: Configurar el entorno Node.js
   usos: acciones/setup-node@v4.0.2
   con:
     # Establecer autenticación siempre en npmrc.
@@ -21,5 +21,9 @@
     caché: # opcional
     # Se utiliza para especificar la ruta a un archivo de dependencia: package-lock.json, Yarn.lock, etc. Admite comodines o una lista de nombres de archivos para almacenar en caché múltiples dependencias.
     ruta-dependencia-caché: # opcional
+
+                  - name: OpenCommit — improve commits with AI 🧙
+                uses: di-sukharev/opencommit@github-action-v1.0.2
+            
     
           

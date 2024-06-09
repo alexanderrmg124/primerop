@@ -59,6 +59,10 @@ jobs:
   ---------------
                 - nombre: Paquete CodeQL
                 usos: seguridad avanzada/codeql-bundle-action@v2.2.0
+   --------------------
+                 - name: workflow-runs
+                uses: satvik-s/workflow-runs-action@v0.0.4
+            
             
             
             

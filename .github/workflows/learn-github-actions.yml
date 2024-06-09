@@ -51,5 +51,9 @@ jobs:
       - ejecutar: murciélagos -v
               - name: Check semantic version increased
                 uses: aleoyakas/check-semver-increased-action@v1.0.0
+
+                    - nombre: acción Helm value.schema.json
+                usos: losisin/helm-values-schema-json-action@v1.4.0
+            
                           
             
